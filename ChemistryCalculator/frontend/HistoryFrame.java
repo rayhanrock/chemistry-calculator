@@ -1,7 +1,9 @@
 package ChemistryCalculator.frontend;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -54,16 +56,18 @@ public class HistoryFrame extends JFrame {
         mainScrollPane.setBorder(null);
 
 
-        HistoryTextArea.setFont(new Font("Segoe UI", 0, 15)); // NOI18N
+        HistoryTextArea.setFont(new Font("Segoe UI", 0, 15));
         HistoryTextArea.setLineWrap(true);
 
         //collecting all the content from history.txt file
-        HistoryTextArea.setText(String.valueOf(StandardCharsets.UTF_8.decode(ByteBuffer.wrap(Files.readAllBytes(Paths.get("history.txt"))))));
+        String filePath = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator
+                + "Chemistry Calculator" + File.separator
+                + "history.txt";
+        HistoryTextArea.setText(String.valueOf(StandardCharsets.UTF_8.decode(ByteBuffer.wrap(Files.readAllBytes(Paths.get(filePath))))));
         HistoryTextArea.setWrapStyleWord(true);
         HistoryTextArea.setBorder(null);
         HistoryTextArea.setMargin(new Insets(3, 5, 3, 3));
         mainScrollPane.setViewportView(HistoryTextArea);
-
 
 
         setVisible(true);
