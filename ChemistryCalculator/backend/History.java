@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 public interface History {
     default void add(String line) throws FileNotFoundException {
 
@@ -27,6 +30,13 @@ public interface History {
         } else {
             writer = new PrintWriter(history);
         }
+
+        //adding date & time
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss, dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+
+        line = line.concat("    [" + dateTimeFormatter.format(now) +"]");
+
 
         writer.println(line);
         writer.flush();
