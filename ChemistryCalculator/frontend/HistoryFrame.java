@@ -3,12 +3,17 @@ package ChemistryCalculator.frontend;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class HistoryFrame extends JFrame {
@@ -63,7 +68,14 @@ public class HistoryFrame extends JFrame {
         String filePath = FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator
                 + "Chemistry Calculator" + File.separator
                 + "history.txt";
-        HistoryTextArea.setText(String.valueOf(StandardCharsets.UTF_8.decode(ByteBuffer.wrap(Files.readAllBytes(Paths.get(filePath))))));
+
+        //sorting by date & time
+        ArrayList<String> temp =new ArrayList<>();
+        Files.lines(Paths.get(filePath)).forEach(line ->temp.add(line));
+        for(int i=temp.size()-1;i>=0;i--) {
+            HistoryTextArea.append(temp.get(i) +"\n");
+        }
+
         HistoryTextArea.setWrapStyleWord(true);
         HistoryTextArea.setBorder(null);
         HistoryTextArea.setMargin(new Insets(3, 5, 3, 3));
